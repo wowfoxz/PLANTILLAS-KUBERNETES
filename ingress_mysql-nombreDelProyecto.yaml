@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mysql-nombreDelProyecto
+  namespace: bd
+  annotations:
+    kubernetes.io/ingress.class: public
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^(/mysql-nombreDelProyecto)$ $1/ redirect;
+spec:
+  rules:
+  - host: api.NombreDelHost.gob.ar
+    http:
+      paths:
+      - path: /mysql-nombreDelProyecto(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: mysql-nombreDelProyecto
+            port:
+              number: 3306

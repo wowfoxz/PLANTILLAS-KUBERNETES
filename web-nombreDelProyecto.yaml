@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-nombreDelProyecto
+  namespace: aplicaciones
+  labels:
+    k8s-app: web-nombreDelProyecto
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: web-nombreDelProyecto
+  template:
+    metadata:
+      name: web-nombreDelProyecto
+      labels:
+        k8s-app: web-nombreDelProyecto
+    spec:
+      containers:
+        - name: web-nombreDelProyecto
+          image: upsti/web-nombreDelProyecto:v1.6.24
+          resources:
+            requests:
+              memory: "4Mi"
+              cpu: "26m"
+            limits:
+              memory: "6Mi"
+              cpu: "200m"
+          securityContext:
+            privileged: false

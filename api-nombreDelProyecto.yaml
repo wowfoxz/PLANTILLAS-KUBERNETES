@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-nombreDelProyecto
+  namespace: api
+  labels:
+    k8s-app: api-nombreDelProyecto
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: api-nombreDelProyecto
+  template:
+    metadata:
+      name: api-nombreDelProyecto
+      labels:
+        k8s-app: api-nombreDelProyecto
+    spec:
+      containers:
+        - name: api-nombreDelProyecto
+          image: upsti/api-nombreDelProyecto:v0.0.5
+          resources:
+            requests:
+              memory: "600Mi"
+              cpu: "200m"
+            limits:
+              memory: "900Mi"
+              cpu: "400m"
+          securityContext:
+            privileged: false
+          envFrom:
+          - secretRef:
+              name: secret-api-nombreDelProyecto
+          env:
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
